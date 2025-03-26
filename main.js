@@ -6230,3 +6230,25 @@ document.getElementById('structureforme').addEventListener('click', function() {
     formestructure.innerHTML = `<p>Aucune structure trouvée pour les sélections actuelles.</p>`;
   }
 });
+// تأكد من أن الأزرار كبيرة بما يكفي للضغط عليها بالإصبع
+document.querySelectorAll('button').forEach(button => {
+    button.style.minWidth = '44px';
+    button.style.minHeight = '44px';
+});
+
+// منع التمرير المزدوج للتكبير
+let lastTouchEnd = 0;
+document.addEventListener('touchend', function (event) {
+    const now = (new Date()).getTime();
+    if (now - lastTouchEnd <= 300) {
+        event.preventDefault();
+    }
+    lastTouchEnd = now;
+}, false);
+
+// تحسين تجربة اللمس للنماذج
+document.querySelectorAll('input, select, textarea').forEach(input => {
+    input.addEventListener('focus', function() {
+        this.style.fontSize = '16px'; // منع التكبير التلقائي في iOS
+    });
+});
