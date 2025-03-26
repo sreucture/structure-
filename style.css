@@ -539,3 +539,77 @@ h2 {
   font-size: 0.8em;
   color: #000000;
 }
+/* إضافة استعلامات الوسائط للهاتف */
+@media (max-width: 768px) {
+  body {
+    background-size: auto;
+    overflow: auto;
+  }
+  
+  .ring {
+    width: 300px;
+    height: 300px;
+  }
+  
+  .login {
+    width: 250px;
+  }
+  
+  .new-interface {
+    width: 90%;
+    height: auto;
+    padding: 15px;
+  }
+  
+  #Traficinterface, #formeinterface, #structureInterface {
+    width: 95%;
+    max-width: 95%;
+    padding: 10px;
+  }
+  
+  .container {
+    width: 100%;
+    padding: 10px;
+    margin: 20px auto;
+  }
+  
+  .buttons {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  select, button {
+    width: 100%;
+  }
+  
+  #ne-form {
+    gap: 10px;
+  }
+  
+  #ne-form input, #ne-form select {
+    width: 100%;
+  }
+  
+  .rectangle {
+    width: 60px;
+    font-size: 0.8em;
+  }
+  
+  .blue {
+    width: calc(4 * 60px + 6 * 5px);
+  }
+  
+  h2 {
+    font-size: 1em;
+    padding: 10px;
+  }
+}
+
+/* إصلاحات عامة للهاتف */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
+input, select, button {
+  font-size: 16px !important; /* منع التكبير في iOS */
+}
