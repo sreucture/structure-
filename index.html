@@ -8,6 +8,9 @@
     <link rel="shortcut icon" href="route.png" type="image/x-icon">
 </head>
 <body>
+
+    <img src="cmc-logo.png" class="top-right-logo">
+
     <div class="ring">
         <i style="--clr:#00ff0a;"></i>
         <i style="--clr:#ff0057;"></i>
@@ -22,6 +25,9 @@
     <div id="newInterface" style="display: none;">
         <button id="Trafic">
             <span>Trafic</span>
+        </button>
+        <button id="portance">
+            <span>Sti</span>
         </button>
         <button id="forme">
             <span>Couche de forme</span>
@@ -70,9 +76,9 @@
               <label for="cvc">CVC Répartition du trafic :</label>
               <input type="number" id="cvc" step="0.5" required>
 
-              <button type="submit">Calculer NE</button>
+              <button type="submit"> <span>Calculer NE</span></button>
             </form>
-            <h2>Résultat :</h2>
+            <h2>Résultat : valeur de NE / Trafic /  Portance Pj minimale</h2>
             <p id="resultat"></p>
         </div>
         <button id="back">
@@ -80,6 +86,249 @@
         </button>
     </div>
 
+    <div id="portanceInterface" style="display: none;">
+        <div class="container">
+           <h1>Module Sti</h1>
+           <button id="categorieSolButton">
+               <span>Catégorie de sol</span>
+           </button>
+           <button id="determinerStiButton">
+               <span>Déterminer Sti</span>
+            </button>
+       </div>
+       <button id="backStiButton">
+           <span>⤆</span>
+        </button>
+    </div>
+
+    <div id="determinerStiInterface" style="display: none;">
+        <div class="container">
+           <h1>Détermination de la valeur Sti</h1>
+           <form id="sti-form">
+                <div class="input-group">
+                    <label for="environnementClimatique">Environnement climatique :</label>
+                    <select id="environnementClimatique" required>
+                       <option value="Environnement-climatique">Environnement climatique</option>
+                       <option value="humide">Humide</option>
+                       <option value="semi-humide">Semi-humide</option>
+                       <option value="aride">Aride</option>
+                       <option value="desertique">Désertique</option>
+                   </select>
+                </div>
+            
+                <div class="input-group">
+                   <label for="drainage">Dispositifs de drainage :</label>
+                   <select id="drainage" required>
+                      <option value="Dispositifs-de-drainage">Dispositifs de drainage</option>
+                      <option value="type1">Type 1 (Drainage complet)</option>
+                      <option value="type2">Type 2 (Drainage partiel)</option>
+                   </select>
+                </div>
+                <div class="input-group">
+                   <label for="typeSol">Classe de sol :</label>
+                   <select id="typeSol" required>
+                       <option value="Classe-de-sol">Classe de sol</option>
+                       <option value="I">I - Sols rocheux/graveleux</option>
+                       <option value="II">II - Sols sableux</option>
+                       <option value="III">III - Sols limoneux</option>
+                       <option value="IV">IV - Sols argileux</option>
+                   </select>
+                </div>
+            
+                <div class="input-group">
+                    <label for="zoneInondable">Conditions hydriques :</label>
+                    <select id="zoneInondable" required>
+                        <option value="Conditions-hydriques">Conditions hydriques</option>
+                        <option value="non-inondable">Hors zone inondable / Nappe profonde (>1m)</option>
+                        <option value="inondable">Zone inondable / Nappe proche (<1m)</option>
+                   </select>
+               </div>
+            
+               <button type="submit" class="calculate-btn">
+                   <span>valeur de la portance Sti</span>
+               </button>
+            </form>
+        
+            <div id="stiResultContainer" style="display: none;">
+                <h2>Résultat :</h2>
+                <div class="result-box">
+                    <p id="stiResult"></p>
+                    <p id="stiExplication"></p>
+                    <p id="stiRecommandation"></p>
+                </div>
+                
+                <div id="stiTableContainer" style="display: none; margin-top: 20px;">
+                    <h3>Classification des sols selon la portance</h3>
+                    <table class="sti-table">
+                        <thead>
+                            <tr>
+                                <th>Indice</th>
+                                <th>St1</th>
+                                <th>St2</th>
+                                <th>St3</th>
+                                <th>St4</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Essai à la plaque EV2 (bars)</td>
+                                <td>100 à 500</td>
+                                <td>500 à 1200</td>
+                                <td>1200 à 2000</td>
+                                <td>> 2000</td>
+                            </tr>
+                            <tr>
+                                <td>Déflexion sous 13T (1/100 de mm)</td>
+                                <td>> 200</td>
+                                <td>100 à 200</td>
+                                <td>60 à 100</td>
+                                <td>&lt; 60</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="CBRTableContainer" style="display: none; margin-top: 20px;">
+            <h3>Classification des sols selon la portance</h3>
+            <table class="CBR-table">
+                <thead>
+                    <tr>
+                        <th>Sti</th>
+                        <th>St0</th>
+                        <th>St1</th>
+                        <th>St2</th>
+                        <th>St3</th>
+                        <th>St4</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th>indice CBR</th>
+                        <th> ≤ 4</th>
+                        <th> ≥ 6</th>
+                        <th> ≥ 10</th>
+                        <th> ≥ 15</th>
+                        <th> ≥ 25</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <button id="backDeterminerStiButton">
+            <span>⤆</span>
+        </button>
+    </div>
+
+    <div id="categorieSolInterface" style="display: none;">
+        <div class="container">
+            <h1>Analyse de Catégorie de Sol</h1>
+            
+            <div class="tabs">
+                <div class="tab active" onclick="openTab('ag')">AG - Granulométrie</div>
+                <div class="tab" onclick="openTab('gmtr')">GMTR - Classification</div>
+            </div>
+            
+            <div id="ag" class="tab-content active">
+                <h2>Analyse Granulométrique</h2>
+                <table id="granulometry-table">
+                    <thead>
+                        <tr>
+                            <th>Ouverture tamis (mm)</th>
+                            <th>Masse refus rᵢ (g)</th>
+                            <th>Masse refus cumulés Rᵢ (g)</th>
+                            <th>% Refus cumulés p =100.Rᵢ/M₂</th>
+                            <th>% Tamisat cumulé</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                
+                <div class="water-content">
+                    <h3>Teneur en Eau</h3>
+                    <table>
+                        <tr>
+                            <td>Masse Sèche (g)</td>
+                            <td><input type="number" id="dry-mass" value="000"></td>
+                        </tr>
+                        <tr>
+                            <td>Masse Humide (g)</td>
+                            <td><input type="number" id="wet-mass" value="000"></td>
+                        </tr>
+                        <tr>
+                            <td>Masse Sèche Après L'étuvage (g)</td>
+                            <td><input type="number" id="dry-mass-after" value="000"></td>
+                        </tr>
+                        <tr class="result">
+                            <td>La Teneur En Eau (w%)</td>
+                            <td id="water-content-result">0%</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <div class="signature">
+                    <p>M'hamed ACHTATOU</p>
+                    <p>Younes EL GHAZI</p>
+                    <p>Azzeddine Akhdada </p>
+                </div>
+            </div>
+            
+            <div id="gmtr" class="tab-content">
+                <h2>Classification GMTR des Sols Meubles</h2>
+                
+                <table>
+                    <tr>
+                        <th>Paramètre</th>
+                        <th>Valeur</th>
+                    </tr>
+                    <tr>
+                        <td>passant 0.08mm (%)</td>
+                        <td><input type="number" id="passant-008" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td>passant 2mm (%)</td>
+                        <td><input type="number" id="passant-2" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td>Wl (Limite de Liquidité)</td>
+                        <td><input type="number" id="wl" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td>Wp (Limite de Plasticité)</td>
+                        <td><input type="number" id="wp" value="0"></td>
+                    </tr>
+                    <tr class="result">
+                        <td>IP (Indice de Plasticité)</td>
+                        <td id="ip-result">0</td>
+                    </tr>
+                    <tr>
+                        <td>VBS (Valeur au Bleu)</td>
+                        <td><input type="number" id="vbs" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td>Dmax (mm)</td>
+                        <td><input type="number" id="dmax" value="0"></td>
+                    </tr>
+                    <tr>
+                        <td>passant 50mm (%)</td>
+                        <td><input type="number" id="passant-50" value="0"></td>
+                    </tr>
+                </table>
+                
+                <button onclick="classifySoil()"> <span>Classer le Sol</span></button>
+                
+                <div class="classification" id="classification-result">
+                    <h3>Classification du Sol</h3>
+                    <p>Classification: <span id="soil-class">_</span></p>
+                    <h3>Catégorie de sol</h3>
+                    <p>categorie: <span id="soil-class">_</span></p>
+                </div>
+            </div>
+        </div>
+        <button id="backCategorieSolButton">
+            <span>⤆</span>
+        </button>
+    </div>
+    
     <div id="formeinterface" style="display: none;">
         <div class="container">
             <h1>Epaisseur de couche de forme</h1>
@@ -127,7 +376,6 @@
             portance  minimale exigée.
             Dans ce cas on a: Pj=Pjminimale
         </h2>
-      </div>
     </div>
 
     <div id="structureInterface" style="display: none;">
